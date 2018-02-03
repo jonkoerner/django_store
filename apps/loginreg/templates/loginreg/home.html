@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shoes</title>
+</head>
+<body>
+    <h1>Hi, {{ request.session.user_name }}! </h1>
+    <h3> 
+        <a href="/dashboard">Go to Dashboard</a>
+        <a href="/logout">Log Out</a>
+    </h3>
+    <h3>All Products</h3>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Date Posted</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+        {% for item in forsale %}
+        <tr>
+            <td>{{item.product}}</td>
+            <td>{{item.seller.name}}</td>
+            <td>{{item.Posted_at}}</td>
+            <td>{{item.amount}}</td>
+            <td> 
+            <form method="POST" action="/buy">
+            {% csrf_token %}
+            <input name="product_id" type="hidden" value="{{item.id}}">
+            <input type="submit" value="Buy" color="blue" >
+            </td></form>     
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

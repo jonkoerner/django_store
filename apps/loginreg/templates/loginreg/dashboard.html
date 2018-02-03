@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hi, {{ request.session.user_name }}! </h1>
+    <h3>
+        <a href="/shoes">Go to All Products</a>
+        <a href="/logout">Log Out</a>
+    </h3>
+    <h3>Sell Product</h3>
+    <form action="/newproduct" method="post">
+        {% csrf_token %}
+        <p>Name <input type="text" name="name" id=""></p>
+        <p>Amount  $<input type="number" min="0" max="10000" step="1" name="price"></p>
+        <input type="submit" value="Sell">
+    </form>
+    <br>
+    <h3>Your products that are not yet sold:</h3>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Date Posted</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+        {% for item in forsale %}
+        <tr>
+            <td>{{item.product}}</td>
+            <td>{{item.Posted_at}}</td>
+            <td>{{item.amount}}</td>
+            <td><form action="/remove" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="remove" value="{{item.id}}">
+                <input type="submit" value="remove"></td></form>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>These are items I have sold</h2>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Date Posted</th>
+            <th>Buyer ID</th>
+            <th>Amount</th>
+        </tr>
+        {% for item in sold %}
+        <tr>
+            <td>{{item.product}}</td>
+            <td>{{item.Posted_at}}</td>
+            <td>{{item.buyer_id}}</td>
+            <td>{{item.amount}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <table>
+        <h2>Purchases</h2>
+        <tr>
+            <th>Product</th>
+            <th>Date Purchased</th>
+            <th>Seller ID</th>
+            <th>Amount</th>
+        </tr>
+        {% for item in purchased %}
+        <tr>
+            <td>{{item.product}}</td>
+            <td>{{item.Posted_at}}</td>
+            <td>{{item.seller_id}}</td>
+            <td>{{item.amount}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
